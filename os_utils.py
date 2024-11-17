@@ -61,7 +61,7 @@ def get_hard_drive_used_space_gbyte():
     return get_folder_used_space_gbyte(slash)
 
 
-def start_system_barrel_process(commands: list, wait_for_result = False):
+def start_system_barrel_process(commands: list, folder = None, wait_for_result = False):
     if len(commands) == 0:
         print('0 commands was passed to start_system_revoler_process')
         return
@@ -71,11 +71,11 @@ def start_system_barrel_process(commands: list, wait_for_result = False):
     else:
         str_commands = ' '.join(commands)
     if wait_for_result:
-        proc = subprocess.Popen(str_commands, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        proc = subprocess.Popen(str_commands, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, cwd=folder)
         output, err = proc.communicate()
         return output
     else:
-        subprocess.Popen(str_commands, shell=True)
+        return subprocess.Popen(str_commands, shell=True, cwd=folder)
 
 
-print(start_system_barrel_process(['pip3 list'], wait_for_result=True))
+# print(start_system_barrel_process(['pip3 list'], wait_for_result=True))

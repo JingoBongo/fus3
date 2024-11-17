@@ -1,4 +1,3 @@
 flask
 psutil
-sqlalchemy
-aiosqlite
+git+https://github.com/JingoBongo/vaults#egg=vaults

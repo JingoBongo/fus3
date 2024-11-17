@@ -1,7 +1,25 @@
-default_venv/
+# default_venv/
+# runnables/*
+# !runnables/.gitkeep
+# runnables/vaults/*
+# !runnables/vaults/.gitkeep
+
+# default.log
+# vaults/*
+# !vaults/.gitkeep
+# __pycache__/
+
+
+
+# Ignore everything inside runnables
 runnables/*
-!runnables/.gitkeep
-default.log
-vaults/*
-!vaults/.gitkeep
+
+# But don't ignore the vaults folder itself
+!runnables/vaults/
+
+# Ignore everything inside the vaults folder
+runnables/vaults/*
+
 __pycache__/
+default.log
+vaults.log
