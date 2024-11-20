@@ -24,7 +24,7 @@ def setup_service(project_dir, service_file, service_name, user, group, use_venv
         python_executable = os.path.abspath(sys.executable)
 
     subprocess.run(
-        [python_executable, '-m', 'pip' 'install', '-r',
+        [python_executable, '-m', 'pip', 'install', '-r',
          os.path.join(working_directory, 'fuse_requirements.txt')],
         check=True)
     print("Installed requirements from requirements.txt")
