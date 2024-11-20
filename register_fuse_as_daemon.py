@@ -59,7 +59,7 @@ def change_permissions(path):
         for d in dirs:
             os.chmod(os.path.join(root, d), 0o755)
         for f in files:
-            os.chmod(os.path.join(root, f), 0o644)
+            os.chmod(os.path.join(root, f), 0o755)
 
 
 def reload_and_start_service(service_name):
