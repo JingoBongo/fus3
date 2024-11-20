@@ -68,7 +68,7 @@ def create_directories():
 
 def create_venv(env_path):
     abs_venv_path = os.path.join(venvs_dir, env_path)
-    if not os.path.exists(abs_venv_path):
+    if not os.path.exists(abs_venv_path) or not any(os.scandir(abs_venv_path)):
         try:
             log.info(f"Creating virtual environment at {abs_venv_path}")
             os_utils.start_system_barrel_process([f"python -m venv {abs_venv_path}"], wait_for_result=True)
@@ -371,7 +371,7 @@ def main():
     create_directories()
     create_venv('default_venv')
     streamlit_var = commons_vault.get('streamlit_enabled')
-    if streamlit_var:
+    if not streamlit_var:
         start_streamlit()
     app.run(host="0.0.0.0", port=4053, use_reloader=False)
 
