@@ -21,7 +21,7 @@ def setup_service(project_dir, service_file, service_name, user, group, use_venv
         python_executable = os.path.abspath(sys.executable)
 
     working_directory = project_dir
-    exec_start = f'{python_executable} {os.path.join(project_dir, "main.py")}'
+    exec_start = f'{python_executable} {os.path.join(project_dir, service_name)}.py'
 
     service_content = f"""
 [Unit]
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     project_dir = os.getcwd()
     service_file_name = 'fuse.service'
-    service_name = 'fuse.py'
+    service_name = 'fuse'
     user = 'your_username'  # Replace with the user to run the service
     group = 'your_group'  # Replace with the group to run the service
     use_venv = True  # Set to False to use the current Python interpreter
