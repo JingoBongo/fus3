@@ -371,7 +371,7 @@ def main():
     create_directories()
     create_venv('default_venv')
     streamlit_var = commons_vault.get('streamlit_enabled')
-    if not streamlit_var:
+    if streamlit_var:
         start_streamlit()
     app.run(host="0.0.0.0", port=4053, use_reloader=False)
 
