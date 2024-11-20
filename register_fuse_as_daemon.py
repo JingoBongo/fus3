@@ -3,6 +3,7 @@ import subprocess
 import venv
 import sys
 
+
 def is_windows_running():
     return os.name == 'nt'
 
@@ -22,6 +23,11 @@ def setup_service(project_dir, service_file, service_name, user, group, use_venv
         python_executable = os.path.abspath(sys.executable)
 
     working_directory = project_dir
+    subprocess.run(
+        [os.path.join(venv_dir, 'bin', 'pip'), 'install', '-r', os.path.join(working_directory, 'requirements.txt')],
+        check=True)
+    print("Installed requirements from requirements.txt")
+
     exec_start = f'{python_executable} {os.path.join(project_dir, service_name)}.py'
 
     service_content = f"""
@@ -68,13 +74,12 @@ def reload_and_start_service(service_name):
 
 
 if __name__ == "__main__":
-
-
     project_dir = os.getcwd()
     service_file_name = 'fuse.service'
     service_name = 'fuse'
-    user = 'your_username'  # Replace with the user to run the service
-    group = 'your_group'  # Replace with the group to run the service
+    # I highly suggest to replace root with your user and group
+    user = 'root'  # Replace with the user to run the service
+    group = 'root'  # Replace with the group to run the service
     use_venv = True  # Set to False to use the current Python interpreter
 
     change_permissions(project_dir)
