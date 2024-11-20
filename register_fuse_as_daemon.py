@@ -24,7 +24,7 @@ def setup_service(project_dir, service_file, service_name, user, group, use_venv
 
     working_directory = project_dir
     subprocess.run(
-        [os.path.join(venv_dir, 'bin', 'pip'), 'install', '-r', os.path.join(working_directory, 'requirements.txt')],
+        [os.path.join(venv_dir, 'bin', 'pip'), 'install', '-r', os.path.join(working_directory, 'fuse_requirements.txt')],
         check=True)
     print("Installed requirements from requirements.txt")
 
