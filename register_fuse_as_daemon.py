@@ -9,6 +9,7 @@ def is_windows_running():
 
 def create_venv(venv_dir):
     venv.create(venv_dir, with_pip=True)
+    change_permissions(venv_dir)
     print(f"Created virtual environment in {venv_dir}")
 
 
@@ -25,7 +26,7 @@ def setup_service(project_dir, service_file, service_name, user, group, use_venv
 
     service_content = f"""
 [Unit]
-Description=My Python Project Daemon
+Description=Fuse Service Manager
 After=network.target
 
 [Service]
