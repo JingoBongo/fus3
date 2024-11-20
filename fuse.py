@@ -71,7 +71,7 @@ def create_venv(env_path):
     if not os.path.exists(abs_venv_path) or not any(os.scandir(abs_venv_path)):
         try:
             log.info(f"Creating virtual environment at {abs_venv_path}")
-            os_utils.start_system_barrel_process([f"python -m venv {abs_venv_path}"], wait_for_result=True)
+            os_utils.start_system_barrel_process([f"{sys.executable} -m venv {abs_venv_path}"], wait_for_result=True)
             log.info("Virtual environment created successfully")
             venvs_vault.put(env_path, abs_venv_path)
             return {'status': 'created'}
@@ -115,7 +115,7 @@ def start_streamlit():
         env = os.environ.copy()
         env['BROWSER'] = 'none'
         # TODO check if it is opened from wsl for example
-        streamlit_process = os_utils.start_system_barrel_process(["streamlit run streamlitapp.py"])
+        streamlit_process = os_utils.start_system_barrel_process([f"{sys.executable} run_streamlitapp.py"])
         # streamlit_process = os_utils.start_system_barrel_process(["streamlit run streamlitapp.py --server.headless true"])
         commons_vault.put("streamlit_enabled", True)
 
