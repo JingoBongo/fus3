@@ -15,16 +15,17 @@ def create_venv(venv_dir):
 
 
 def setup_service(project_dir, service_file, service_name, user, group, use_venv):
+    working_directory = project_dir
     if use_venv:
-        venv_dir = os.path.join(project_dir, 'default_venv')
+        venv_dir = os.path.join(project_dir, 'runnables', 'default_venv')
         create_venv(venv_dir)
         python_executable = os.path.join(venv_dir, 'bin', 'python')
     else:
         python_executable = os.path.abspath(sys.executable)
 
-    working_directory = project_dir
     subprocess.run(
-        [os.path.join(venv_dir, 'bin', 'pip'), 'install', '-r', os.path.join(working_directory, 'fuse_requirements.txt')],
+        [python_executable, '-m', 'pip' 'install', '-r',
+         os.path.join(working_directory, 'fuse_requirements.txt')],
         check=True)
     print("Installed requirements from requirements.txt")
 
