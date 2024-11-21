@@ -117,7 +117,7 @@ def start_streamlit():
         # TODO check if it is opened from wsl for example
         streamlit_process = os_utils.start_system_barrel_process([f"{sys.executable} run_streamlitapp.py"])
         # streamlit_process = os_utils.start_system_barrel_process(["streamlit run streamlitapp.py --server.headless true"])
-        commons_vault.put("streamlit_enabled", True)
+        commons_vault.put("streamlit_enabled", 'True')
 
 
 def stop_streamlit():
@@ -125,7 +125,7 @@ def stop_streamlit():
     if streamlit_process is not None:
         os_utils.terminate_process(streamlit_process.pid)
         streamlit_process = None
-        commons_vault.put("streamlit_enabled", False)
+        commons_vault.put("streamlit_enabled", 'False')
 
 
 def stop_process(name):
@@ -371,7 +371,7 @@ def main():
     create_directories()
     create_venv('default_venv')
     streamlit_var = commons_vault.get('streamlit_enabled')
-    if streamlit_var:
+    if streamlit_var == None or streamlit_var == 'True':
         start_streamlit()
     app.run(host="0.0.0.0", port=4053, use_reloader=False)
 
