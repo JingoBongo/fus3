@@ -151,7 +151,7 @@ def replace_venv_placeholders(input_data):
 
     def replacement(match):
         key = match.group(1)
-        cut_path = venvs_vault.get(key) or 'default_venv'
+        cut_path = venvs_vault.get(key) or venvs_vault.get('default_venv')
         return os.path.join(cut_path, 'Scripts' if is_windows_running else 'bin', 'python')
 
     if isinstance(input_data, str):
@@ -191,9 +191,11 @@ def find_file_in_subfolders(folder_path, filename):
     if not os.path.exists(folder_path):
         log.error(f"Folder path does not exist: {folder_path}")
     else:
+        log.debug(f"Walking through {folder_path} in search of {filename}")
         for root, dirs, files in os.walk(folder_path):
             if filename in files:
                 return os.path.join(root, filename)
+    log.error(f"No file '{filename}' found in folder '{folder_path}' or its subfolders")
     return None
 
 
@@ -321,6 +323,10 @@ def launch_process():
             repo_dict['instructions'] = instructions
         venv_curated_instructions = replace_venv_placeholders(repo_dict['instructions'])
         filename_curated_instructions = replace_file_placeholders(venv_curated_instructions, repo_path)
+        if any(bool(re.search(r'\[.*\]|{.*\}/', instruction)) for instruction in filename_curated_instructions):
+            return jsonify({
+                'message': f"Process was not launched, could not curate the instructions: {filename_curated_instructions}"}), 400
+        log.info(f"Launching set of instructions: {filename_curated_instructions}")
         process = os_utils.start_system_barrel_process(filename_curated_instructions, folder=repo_path)
         repo_dict['PID'] = process.pid
         repo_dict['status'] = 'running'
@@ -363,7 +369,6 @@ def disable_streamlit():
     return jsonify({"message": "Streamlit stopped"}), 200
 
 
-# TODO check in linux
 # TODO see where i can add lru_cache
 # TODO check if logs work properly
 
